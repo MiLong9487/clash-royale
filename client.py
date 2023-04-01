@@ -2,7 +2,7 @@ import pygame
 from constants import *
 
 pygame.init()
-screen = pygame.display.set_mode(SCREEN_SIZE)
+screen = pygame.display.set_mode([500,600])
 
 running = True
 
@@ -10,11 +10,12 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-cardA = python.image.load()
-class Button:
-    def __init__(self,image,width,height,position):
+cardA = pygame.image.load()
+class Button(pygame.sprite.Sprite):
+    def __init__(self,color,width,height,position):
+        pygame.sprite.Sprite.__init__(self)
         self.top_rect = pygame.rect(position,(width,height))
-        self.top_color = (255,228,181)
+        self.top_color = (250,228,181)
     
     def draw(self):
         pygame.draw.rect(screen,self.top_color,self.top_rect)
