@@ -1,1 +1,1 @@
-screen_size = (500,600)
+SCREEN_SIZE = (500,600)

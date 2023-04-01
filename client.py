@@ -2,7 +2,7 @@ import pygame
 from constants import *
 
 pygame.init()
-screen = pygame.display.set_mode(screen_size)
+screen = pygame.display.set_mode(SCREEN_SIZE)
 
 running = True
 
