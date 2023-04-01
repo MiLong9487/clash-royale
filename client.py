@@ -15,7 +15,7 @@ class Button(pygame.sprite.Sprite):
     def __init__(self,color,width,height,position):
         pygame.sprite.Sprite.__init__(self)
         self.top_rect = pygame.rect(position,(width,height))
-        self.top_color = (250,228,181)
+        self.top_color = (250,250,250)
     
     def draw(self):
         pygame.draw.rect(screen,self.top_color,self.top_rect)
