@@ -1,4 +1,4 @@
-import pygame.sys
+import pygame,sys
 from constants import *
 
 pygame.init()
