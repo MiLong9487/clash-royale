@@ -17,7 +17,7 @@ class Button(pygame.sprite.Sprite):
 button_group = pygame.sprite.Group()
 button = Button(50,50,100,100)
 button_group.add(button)
-button_position = button.rect.center
+
 
 moving = False
 while running:
@@ -32,7 +32,7 @@ while running:
                 moving = False
     if moving:
         if event.type == pygame.MOUSEMOTION:
-            button_position = pygame.mouse.get_pos()
+            button.rect.center = pygame.mouse.get_pos()
         
     pygame.display.flip()
     button_group.draw(screen)
