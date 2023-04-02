@@ -30,9 +30,11 @@ while running:
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 moving = False
+    
     if moving:
         if event.type == pygame.MOUSEMOTION:
             button.rect.center = pygame.mouse.get_pos()
-        
     pygame.display.flip()
+    screen.fill((0,0,0))
     button_group.draw(screen)
+    
