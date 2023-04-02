@@ -16,8 +16,8 @@ class Button(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect = [pos_x,pos_y]
-    def update(self):
-        self.rect.center = pygame.mouse.get_pos()
+    
+
 button_group = pygame.sprite.Group()
 button = Button(50,50,100,100,(250,250,250))
 button_group.add(button)
@@ -28,4 +28,6 @@ while running:
             running = False
     pygame.display.flip()
     button_group.draw(screen)
+    
+
 
