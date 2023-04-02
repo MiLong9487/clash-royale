@@ -3,7 +3,7 @@ from constants import *
 
 class Mob(pygame.sprite.Sprite):
     #__init__為卡牌之參數，根據每張卡牌"完全"重構
-    def __init__(self, x, y, enemy_list):
+    def __init__(self, x, y, *enemy_list):
         pygame.sprite.Sprite.__init__(self)
         self.COST = 0
         self.DEFAULT_HP = 0
@@ -23,7 +23,7 @@ class Mob(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.rect.centery = y
 
-    #有技能者須重構update
+    #有技能者須重構
     def update(self):
         if self.left_cd > 0:
             self.left_cd -= 1
@@ -42,11 +42,12 @@ class Mob(pygame.sprite.Sprite):
     def find_enemy(self):
         min_distance = 1e5
         nearest_enemy = None
-        for enemy in self.enemy_list:
-            distance = ((enemy.rect.centerx - self.rect.centerx) ** 2 + (enemy.rect.centery - self.rect.centery) ** 2) ** 0.5
-            if distance < min_distance:
-                nearest_enemy = enemy
-                min_distance = distance
+        for enemys in self.enemy_list:
+            for enemy in enemys:
+                distance = ((enemy.rect.centerx - self.rect.centerx) ** 2 + (enemy.rect.centery - self.rect.centery) ** 2) ** 0.5
+                if distance < min_distance:
+                    nearest_enemy = enemy
+                    min_distance = distance
         return nearest_enemy
     
     #無視河流者須重構
