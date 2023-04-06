@@ -1,4 +1,4 @@
-import pygame,sys
+import pygame
 from constants import *
 
 pygame.init()
@@ -57,7 +57,6 @@ while running:
                 else:
                     for button in button_group:
                         if button.choosed:
-                            print(button.rect)
                             button.choosed = False
                             button.rect.centery += 10
     pygame.display.flip()
