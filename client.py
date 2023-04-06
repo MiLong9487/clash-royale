@@ -13,6 +13,19 @@ class Button(pygame.sprite.Sprite):
         self.image.fill((250,250,250))
         self.rect = self.image.get_rect()
         self.rect.center = [pos_x,pos_y]
+        self.mooving = False
+        self.choosed = False
+    def choose(self):
+        if not self.choosed:
+            for button in button_group:
+                if button.choosed:
+                    button.choosed = False
+                    button.rect.centery += 10
+            self.choosed = True
+            self.rect.centery -= 10
+        else:
+            self.choosed = False
+            self.rect.centery += 10
 
 button_group = pygame.sprite.Group()
 button1 = Button(54,54,27,507)
@@ -32,20 +45,21 @@ while running:
         mouse_posy = pygame.mouse.get_pos()[1]
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                moving = True
-        if event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 1:
-                moving = False
-        if moving:
-            if event.type == pygame.MOUSEMOTION:
-                if mouse_posx > 54 and mouse_posx < 108 and mouse_posy > 480 and mouse_posy < 534:
-                    button2.rect.center = pygame.mouse.get_pos()
-                if mouse_posx > 108 and mouse_posx < 162 and mouse_posy > 480 and mouse_posy < 534:
-                    button3.rect.center = pygame.mouse.get_pos()
-                if mouse_posx > 162 and mouse_posx < 216 and mouse_posy > 480 and mouse_posy < 534:
-                    button4.rect.center = pygame.mouse.get_pos()
-                if mouse_posx > 216 and mouse_posx < 270 and mouse_posy > 480 and mouse_posy < 534:
-                    button5.rect.center = pygame.mouse.get_pos()
+                if mouse_posy > 480 and mouse_posy < 534:
+                    if mouse_posx > 54 and mouse_posx < 108:
+                        button2.choose()
+                    elif mouse_posx > 108 and mouse_posx < 162:
+                        button3.choose()
+                    elif mouse_posx > 162 and mouse_posx < 216:
+                        button4.choose()
+                    elif mouse_posx > 216 and mouse_posx < 270:
+                        button5.choose()
+                else:
+                    for button in button_group:
+                        if button.choosed:
+                            print(button.rect)
+                            button.choosed = False
+                            button.rect.centery += 10
     pygame.display.flip()
     screen.fill((0,0,0))
     button_group.draw(screen)
