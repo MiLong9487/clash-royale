@@ -34,8 +34,6 @@ button4 = Button(54,54,189,507)
 button5 = Button(54,54,243,507)
 button_group.add(button1,button2,button3,button4,button5)
 
-moving = False
-
 while running:
     for event in pygame.event.get():
         position = None
