@@ -25,8 +25,7 @@ class Button(pygame.sprite.Sprite):
         else:
             self.choosed = False
             self.rect.centery += 10
-    def update():
-        button.blit()
+
 
 button_group = pygame.sprite.Group()
 button1 = Button(54,54,27,507)
