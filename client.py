@@ -35,10 +35,11 @@ button4 = Button(54,54,189,507)
 button5 = Button(54,54,243,507)
 button_group.add(button1,button2,button3,button4,button5)
 
-
 moving = False
+
 while running:
     for event in pygame.event.get():
+        position = None
         if event.type == pygame.QUIT:
             running = False
         mouse_posx = pygame.mouse.get_pos()[0]
@@ -59,7 +60,10 @@ while running:
                         if button.choosed:
                             button.choosed = False
                             button.rect.centery += 10
+                            position = (mouse_posx, mouse_posy)
+                            
     pygame.display.flip()
     screen.fill((0,0,0))
     button_group.draw(screen)
+    
     
