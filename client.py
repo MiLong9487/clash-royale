@@ -13,7 +13,6 @@ class Button(pygame.sprite.Sprite):
         self.image.fill((250,250,250))
         self.rect = self.image.get_rect()
         self.rect.center = [pos_x,pos_y]
-        self.mooving = False
         self.choosed = False
     def choose(self):
         if not self.choosed:
@@ -35,8 +34,6 @@ button4 = Button(54,54,189,507)
 button5 = Button(54,54,243,507)
 button_group.add(button1,button2,button3,button4,button5)
 
-
-moving = False
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
