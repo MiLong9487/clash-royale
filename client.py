@@ -25,6 +25,8 @@ class Button(pygame.sprite.Sprite):
         else:
             self.choosed = False
             self.rect.centery += 10
+    def update():
+        button.blit()
 
 button_group = pygame.sprite.Group()
 button1 = Button(54,54,27,507)
@@ -33,6 +35,7 @@ button3 = Button(54,54,135,507)
 button4 = Button(54,54,189,507)
 button5 = Button(54,54,243,507)
 button_group.add(button1,button2,button3,button4,button5)
+image1 = pygame.image.load("knife.jpg")
 
 while running:
     for event in pygame.event.get():
@@ -62,5 +65,7 @@ while running:
     pygame.display.flip()
     screen.fill((0,0,0))
     button_group.draw(screen)
+    screen.blit(image1,(button2.rect))
+
     
     
