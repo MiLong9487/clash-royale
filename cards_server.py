@@ -92,3 +92,60 @@ class knight(Mob):
         self.float_y = y
         self.rect.centerx = x
         self.rect.centery = y
+class musketeer(Mob):
+    def __init__(self, x, y, enemy_list):
+        self.COST = 4
+        self.DEFAULT_HP = 650
+        self.DEFAULT_CD = int(TICK * 1.0)
+        self.DEFAULT_ATK = 145
+        self.DEFAULT_SEPPD = 1.2
+        self.ATK_RANGE = 120
+        self.hp = self.DEFAULT_HP
+        self.cd = self.DEFAULT_CD
+        self.atk = self.DEFAULT_ATK
+        self.speed = self.DEFAULT_SEPPD
+        self.enemy_list = enemy_list
+        self.atking_enemy = pygame.sprite.GroupSingle()
+        self.left_cd = self.cd
+        self.float_x = x
+        self.float_y = y
+        self.rect.centerx = x
+        self.rect.centery = y
+class princess(Mob):
+    def __init__(self, x, y, enemy_list):
+        self.COST = 3
+        self.DEFAULT_HP = 270
+        self.DEFAULT_CD = int(TICK * 1.8)
+        self.DEFAULT_ATK = 120
+        self.DEFAULT_SEPPD = 0.8
+        self.ATK_RANGE = 260
+        self.hp = self.DEFAULT_HP
+        self.cd = self.DEFAULT_CD
+        self.atk = self.DEFAULT_ATK
+        self.speed = self.DEFAULT_SEPPD
+        self.enemy_list = enemy_list
+        self.atking_enemy = pygame.sprite.GroupSingle()
+        self.left_cd = self.cd
+        self.float_x = x
+        self.float_y = y
+        self.rect.centerx = x
+        self.rect.centery = y
+class pika(Mob):
+    def __init__(self, x, y, enemy_list):
+        self.COST = 4
+        self.DEFAULT_HP = 720
+        self.DEFAULT_CD = int(TICK * 1.5)
+        self.DEFAULT_ATK = 250
+        self.DEFAULT_SEPPD = 1.1
+        self.ATK_RANGE = 30
+        self.hp = self.DEFAULT_HP
+        self.cd = self.DEFAULT_CD
+        self.atk = self.DEFAULT_ATK
+        self.speed = self.DEFAULT_SEPPD
+        self.enemy_list = enemy_list
+        self.atking_enemy = pygame.sprite.GroupSingle()
+        self.left_cd = self.cd
+        self.float_x = x
+        self.float_y = y
+        self.rect.centerx = x
+        self.rect.centery = y

@@ -13,7 +13,6 @@ class Button(pygame.sprite.Sprite):
         self.image.fill((250,250,250))
         self.rect = self.image.get_rect()
         self.rect.center = [pos_x,pos_y]
-        self.mooving = False
         self.choosed = False
     def choose(self):
         if not self.choosed:
