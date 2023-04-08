@@ -35,6 +35,9 @@ button4 = Button(54,54,189,507)
 button5 = Button(54,54,243,507)
 button_group.add(button1,button2,button3,button4,button5)
 image1 = pygame.image.load("knife.jpg")
+image2 = pygame.image.load("musketeer.jpg")
+image3 = pygame.image.load("pika.jpg")
+image4 = pygame.image.load("princess.jpg")
 
 while running:
     for event in pygame.event.get():
@@ -65,6 +68,9 @@ while running:
     screen.fill((0,0,0))
     button_group.draw(screen)
     screen.blit(image1,(button2.rect))
+    screen.blit(image2,(button3.rect))
+    screen.blit(image3,(button4.rect))
+    screen.blit(image4,(button5.rect))
 
     
     
