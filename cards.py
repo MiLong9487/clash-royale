@@ -17,7 +17,9 @@ class Mob(pygame.sprite.Sprite):
         self.speed = self.DEFAULT_SEPPD
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
-        self.left_cd = self.cd
+        self.left_cd = 0
+        self.surface = pygame.Surface((30,30))
+        self.rect = self.surface.get_rect()
         self.float_x = x
         self.float_y = y
         self.rect.centerx = x
@@ -40,7 +42,7 @@ class Mob(pygame.sprite.Sprite):
 
     #攻擊目標僅有敵方建築者須重構
     def find_enemy(self):
-        min_distance = 1e5
+        min_distance = 1e3
         nearest_enemy = None
         for enemys in self.enemy_list:
             for enemy in enemys:
@@ -92,7 +94,7 @@ class knight(Mob):
         self.float_y = y
         self.rect.centerx = x
         self.rect.centery = y
-class musketeer(Mob):
+class Musketeer(Mob):
     def __init__(self, x, y, enemy_list):
         self.COST = 4
         self.DEFAULT_HP = 650
@@ -111,7 +113,7 @@ class musketeer(Mob):
         self.float_y = y
         self.rect.centerx = x
         self.rect.centery = y
-class princess(Mob):
+class Princess(Mob):
     def __init__(self, x, y, enemy_list):
         self.COST = 3
         self.DEFAULT_HP = 270
@@ -130,7 +132,7 @@ class princess(Mob):
         self.float_y = y
         self.rect.centerx = x
         self.rect.centery = y
-class pika(Mob):
+class Pika(Mob):
     def __init__(self, x, y, enemy_list):
         self.COST = 4
         self.DEFAULT_HP = 720
@@ -147,5 +149,81 @@ class pika(Mob):
         self.left_cd = self.cd
         self.float_x = x
         self.float_y = y
+        self.rect.centerx = x
+        self.rect.centery = y
+
+
+
+class Building(pygame.sprite.Sprite):
+    def __init__(self, x, y, *enemy_list):
+        pygame.sprite.Sprite.__init__(self)
+        self.ATK_RANGE = 0
+        self.hp = 0
+        self.cd = 0
+        self.atk = 0
+        self.enemy_list = enemy_list
+        self.atking_enemy = pygame.sprite.GroupSingle()
+        self.left_cd = 0
+        self.surface = pygame.Surface((30,30))
+        self.rect = self.surface.get_rect()
+        self.rect.centerx = x
+        self.rect.centery = y
+
+    def update(self):
+        if self.left_cd > 0:
+            self.left_cd -= 1
+        if len(self.atking_enemy) == 1:
+            self.atk_enemy(self.atking_enemy.sprite)
+            return
+        enemy = self.find_enemy()
+        if ((enemy.rect.centerx - self.rect.centerx) ** 2 + (enemy.rect.centery - self.rect.centery) ** 2) ** 0.5 <= self.ATK_RANGE:
+            self.atk_enemy(enemy)
+            self.atking_enemy.add(enemy)
+
+    def find_enemy(self):
+        min_distance = 1e3
+        nearest_enemy = None
+        for enemys in self.enemy_list:
+            for enemy in enemys:
+                distance = ((enemy.rect.centerx - self.rect.centerx) ** 2 + (enemy.rect.centery - self.rect.centery) ** 2) ** 0.5
+                if distance < min_distance:
+                    nearest_enemy = enemy
+                    min_distance = distance
+        return nearest_enemy
+
+    def atk_enemy(self, enemy):
+        if self.left_cd == 0:
+            enemy.hp -= self.atk
+            self.left_cd = self.cd
+            if enemy.hp == 0:
+                enemy.kill()
+
+class KingTower(Building):
+    def __init__(self, x, y, *enemy_list):
+        pygame.sprite.Sprite.__init__(self)
+        self.ATK_RANGE = 0
+        self.hp = 0
+        self.cd = 0
+        self.atk = 0
+        self.enemy_list = enemy_list
+        self.atking_enemy = pygame.sprite.GroupSingle()
+        self.left_cd = 0
+        self.surface = pygame.Surface((30,30))
+        self.rect = self.surface.get_rect()
+        self.rect.centerx = x
+        self.rect.centery = y
+
+class PrincessTower(Building):
+    def __init__(self, x, y, *enemy_list):
+        pygame.sprite.Sprite.__init__(self)
+        self.ATK_RANGE = 0
+        self.hp = 0
+        self.cd = 0
+        self.atk = 0
+        self.enemy_list = enemy_list
+        self.atking_enemy = pygame.sprite.GroupSingle()
+        self.left_cd = 0
+        self.surface = pygame.Surface((30,30))
+        self.rect = self.surface.get_rect()
         self.rect.centerx = x
         self.rect.centery = y
