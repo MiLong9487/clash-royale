@@ -1,3 +1,3 @@
-import cards_server
+import cards
 import connect_server
 
