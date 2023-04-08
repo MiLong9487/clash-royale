@@ -23,14 +23,3 @@ class UDPServer:
         return cmd_list
     async def send(self, msg):
         self.transport.sendto(json.dumps(msg).encode())
-
-
-class TCPServerProtocol(asyncio.Protocol):
-    def __init__(self):
-        self.buffer = []
-
-    def connection_made(self, transport):
-        ...
-
-    def data_received(self, data):
-        self.buffer.append(data.decode())
