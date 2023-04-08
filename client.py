@@ -7,10 +7,10 @@ screen = pygame.display.set_mode([270,540])
 running = True
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self,width,height,pos_x,pos_y):
+    def __init__(self,pos_x,pos_y,card=None):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([width,height])
-        self.image.fill((250,250,250))
+        self.card = card
+        self.image = pygame.image.load('./image/{}.jpg'.format(self.card))
         self.rect = self.image.get_rect()
         self.rect.center = [pos_x,pos_y]
         self.choosed = False
@@ -28,16 +28,11 @@ class Button(pygame.sprite.Sprite):
 
 
 button_group = pygame.sprite.Group()
-button1 = Button(54,54,27,507)
-button2 = Button(54,54,81,507)
-button3 = Button(54,54,135,507)
-button4 = Button(54,54,189,507)
-button5 = Button(54,54,243,507)
-button_group.add(button1,button2,button3,button4,button5)
-image1 = pygame.image.load("knife.jpg")
-image2 = pygame.image.load("musketeer.jpg")
-image3 = pygame.image.load("pika.jpg")
-image4 = pygame.image.load("princess.jpg")
+button0 = Button(81,507,'knight')
+button1 = Button(135,507,'musketeer')
+button2 = Button(189,507,'pika')
+button3 = Button(243,507,'princess')
+button_group.add(button0,button1,button2,button3)
 
 while running:
     for event in pygame.event.get():
@@ -50,13 +45,13 @@ while running:
             if event.button == 1:
                 if mouse_posy > 480 and mouse_posy < 534:
                     if mouse_posx > 54 and mouse_posx < 108:
-                        button2.choose()
+                        button0.choose()
                     elif mouse_posx > 108 and mouse_posx < 162:
-                        button3.choose()
+                        button1.choose()
                     elif mouse_posx > 162 and mouse_posx < 216:
-                        button4.choose()
+                        button2.choose()
                     elif mouse_posx > 216 and mouse_posx < 270:
-                        button5.choose()
+                        button3.choose()
                 else:
                     for button in button_group:
                         if button.choosed:
@@ -67,10 +62,3 @@ while running:
     pygame.display.flip()
     screen.fill((0,0,0))
     button_group.draw(screen)
-    # screen.blit(image1,(button2.rect))
-    # screen.blit(image2,(button3.rect))
-    # screen.blit(image3,(button4.rect))
-    # screen.blit(image4,(button5.rect))
-
-    
-    
