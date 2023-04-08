@@ -26,9 +26,11 @@ class UDPClient():
         self.transport, self.protocol = await self.loop.create_datagram_endpoint(
             lambda: EchoClientProtocol(self.on_con_lost),
             remote_addr=('127.0.0.1', 9999))
+        
     def recv(self):
         cmd_list = self.protocol.buffer[:]
         del self.protocol.buffer[:]
         return cmd_list
+    
     def send(self, msg, addr):
         self.transport.sendto(json.dumps(msg).encode(), addr)

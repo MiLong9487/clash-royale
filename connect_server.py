@@ -17,9 +17,11 @@ class UDPServer:
         self.transport, self.protocol = await self.loop.create_datagram_endpoint(
             lambda: UDPServerProtocol(),
             local_addr=('127.0.0.1', 9999))
+        
     async def recv(self):
         cmd_list = self.protocol.buffer[:]
         del self.protocol.buffer[:]
         return cmd_list
+    
     async def send(self, msg):
         self.transport.sendto(json.dumps(msg).encode())
