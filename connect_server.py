@@ -9,7 +9,7 @@ class UDPServerProtocol:
         ...
 
     def datagram_received(self, data, addr):
-        self.buffer.append((json.loads(data.decode()), addr))
+        self.buffer.append({'info':json.loads(data.decode()), 'addr':addr})
 
 class UDPServer:
     async def __init__(self):
@@ -19,9 +19,9 @@ class UDPServer:
             local_addr=('127.0.0.1', 9999))
         
     async def recv(self):
-        cmd_list = self.protocol.buffer[:]
-        del self.protocol.buffer[:]
+        cmd_list = self.protocol.buffer.copy()
+        self.protocol.buffer.clear()
         return cmd_list
     
-    async def send(self, msg):
-        self.transport.sendto(json.dumps(msg).encode())
+    async def send(self, msg, addr):
+        self.transport.sendto(json.dumps(msg).encode(), addr)

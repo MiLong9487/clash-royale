@@ -32,5 +32,5 @@ class UDPClient():
         del self.protocol.buffer[:]
         return cmd_list
     
-    def send(self, msg, addr):
-        self.transport.sendto(json.dumps(msg).encode(), addr)
+    def send(self, msg):
+        self.transport.sendto(json.dumps(msg).encode())
