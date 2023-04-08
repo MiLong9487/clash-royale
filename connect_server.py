@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 class UDPServerProtocol:
     def __init__(self):
@@ -8,7 +9,7 @@ class UDPServerProtocol:
         ...
 
     def datagram_received(self, data, addr):
-        self.buffer.append((data.decode(), addr))
+        self.buffer.append((json.loads(data.decode()), addr))
 
 class UDPServer:
     async def __init__(self):
@@ -17,9 +18,11 @@ class UDPServer:
             lambda: UDPServerProtocol(),
             local_addr=('127.0.0.1', 9999))
     async def recv(self):
-        return self.protocol.buffer
+        cmd_list = self.protocol.buffer[:]
+        del self.protocol.buffer[:]
+        return cmd_list
     async def send(self, msg):
-        self.transport.sendto(msg.encode())
+        self.transport.sendto(json.dumps(msg).encode())
 
 
 class TCPServerProtocol(asyncio.Protocol):

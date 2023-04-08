@@ -67,10 +67,10 @@ while running:
     pygame.display.flip()
     screen.fill((0,0,0))
     button_group.draw(screen)
-    screen.blit(image1,(button2.rect))
-    screen.blit(image2,(button3.rect))
-    screen.blit(image3,(button4.rect))
-    screen.blit(image4,(button5.rect))
+    # screen.blit(image1,(button2.rect))
+    # screen.blit(image2,(button3.rect))
+    # screen.blit(image3,(button4.rect))
+    # screen.blit(image4,(button5.rect))
 
     
     
