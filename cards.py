@@ -3,7 +3,7 @@ from constants import *
 
 class Mob(pygame.sprite.Sprite):
     #__init__為卡牌之參數，根據每張卡牌"完全"重構
-    def __init__(self, x, y, *enemy_list):
+    def __init__(self, pos, *enemy_list):
         pygame.sprite.Sprite.__init__(self)
         self.COST = 0
         self.DEFAULT_HP = 0
@@ -20,10 +20,9 @@ class Mob(pygame.sprite.Sprite):
         self.left_cd = 0
         self.surface = pygame.Surface((30,30))
         self.rect = self.surface.get_rect()
-        self.float_x = x
-        self.float_y = y
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.float_x = pos[0]
+        self.float_y = pos[1]
+        self.rect.center = pos
 
     #有技能者須重構
     def update(self):
@@ -76,10 +75,10 @@ class Mob(pygame.sprite.Sprite):
 
 #範例:騎士 無任何特殊之處，除參數(__init__)外無須重構
 class knight(Mob):
-    def __init__(self, x, y, enemy_list):
+    def __init__(self, pos, enemy_list):
         self.COST = 3
         self.DEFAULT_HP = 1000
-        self.DEFAULT_CD = int(TICK * 1.2)
+        self.DEFAULT_CD = int(TPS * 1.2)
         self.DEFAULT_ATK = 95
         self.DEFAULT_SEPPD = 1
         self.ATK_RANGE = 30
@@ -90,15 +89,15 @@ class knight(Mob):
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
-        self.float_x = x
-        self.float_y = y
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.float_x = pos[0]
+        self.float_y = pos[1]
+        self.rect.center = pos
+
 class Musketeer(Mob):
-    def __init__(self, x, y, enemy_list):
+    def __init__(self, pos, enemy_list):
         self.COST = 4
         self.DEFAULT_HP = 650
-        self.DEFAULT_CD = int(TICK * 1.0)
+        self.DEFAULT_CD = int(TPS * 1.0)
         self.DEFAULT_ATK = 145
         self.DEFAULT_SEPPD = 1.2
         self.ATK_RANGE = 120
@@ -109,15 +108,15 @@ class Musketeer(Mob):
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
-        self.float_x = x
-        self.float_y = y
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.float_x = pos[0]
+        self.float_y = pos[1]
+        self.rect.center = pos
+
 class Princess(Mob):
-    def __init__(self, x, y, enemy_list):
+    def __init__(self, pos, enemy_list):
         self.COST = 3
         self.DEFAULT_HP = 270
-        self.DEFAULT_CD = int(TICK * 1.8)
+        self.DEFAULT_CD = int(TPS * 1.8)
         self.DEFAULT_ATK = 120
         self.DEFAULT_SEPPD = 0.8
         self.ATK_RANGE = 260
@@ -128,15 +127,15 @@ class Princess(Mob):
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
-        self.float_x = x
-        self.float_y = y
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.float_x = pos[0]
+        self.float_y = pos[1]
+        self.rect.center = pos
+
 class Pika(Mob):
-    def __init__(self, x, y, enemy_list):
+    def __init__(self, pos, enemy_list):
         self.COST = 4
         self.DEFAULT_HP = 720
-        self.DEFAULT_CD = int(TICK * 1.5)
+        self.DEFAULT_CD = int(TPS * 1.5)
         self.DEFAULT_ATK = 250
         self.DEFAULT_SEPPD = 1.1
         self.ATK_RANGE = 30
@@ -147,27 +146,26 @@ class Pika(Mob):
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
-        self.float_x = x
-        self.float_y = y
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.float_x = pos[0]
+        self.float_y = pos[1]
+        self.rect.center = pos
 
 
 
 class Building(pygame.sprite.Sprite):
-    def __init__(self, x, y, *enemy_list):
+    def __init__(self, pos, *enemy_list):
         pygame.sprite.Sprite.__init__(self)
         self.ATK_RANGE = 0
         self.hp = 0
-        self.cd = 0
+        self.DEFAULT_CD = 0
         self.atk = 0
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
+        self.cd = self.DEFAULT_CD
         self.left_cd = 0
         self.surface = pygame.Surface((30,30))
         self.rect = self.surface.get_rect()
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.rect.center = pos
 
     def update(self):
         if self.left_cd > 0:
@@ -199,31 +197,31 @@ class Building(pygame.sprite.Sprite):
                 enemy.kill()
 
 class KingTower(Building):
-    def __init__(self, x, y, *enemy_list):
+    def __init__(self, pos, *enemy_list):
         pygame.sprite.Sprite.__init__(self)
         self.ATK_RANGE = 0
         self.hp = 0
-        self.cd = 0
+        self.DEFAULT_CD = int(TPS * 1.0)
         self.atk = 0
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
+        self.cd = self.DEFAULT_CD
         self.left_cd = 0
         self.surface = pygame.Surface((30,30))
         self.rect = self.surface.get_rect()
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.rect.center = pos
 
 class PrincessTower(Building):
-    def __init__(self, x, y, *enemy_list):
+    def __init__(self, pos, *enemy_list):
         pygame.sprite.Sprite.__init__(self)
         self.ATK_RANGE = 0
         self.hp = 0
-        self.cd = 0
+        self.DEFAULT_CD = int(TPS * 1.0)
         self.atk = 0
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
+        self.cd = self.DEFAULT_CD
         self.left_cd = 0
         self.surface = pygame.Surface((30,30))
         self.rect = self.surface.get_rect()
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.rect.center = pos
