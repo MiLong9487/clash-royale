@@ -166,8 +166,8 @@ class Building(pygame.sprite.Sprite):
         self.left_cd = 0
         self.surface = pygame.Surface((30,30))
         self.rect = self.surface.get_rect()
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.rect.left = x
+        self.rect.top = y
 
     def update(self):
         if self.left_cd > 0:
@@ -210,8 +210,8 @@ class KingTower(Building):
         self.left_cd = 0
         self.surface = pygame.Surface((30,30))
         self.rect = self.surface.get_rect()
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.rect.left = x
+        self.rect.top = y
 
 class PrincessTower(Building):
     def __init__(self, x, y, *enemy_list):
@@ -225,5 +225,5 @@ class PrincessTower(Building):
         self.left_cd = 0
         self.surface = pygame.Surface((30,30))
         self.rect = self.surface.get_rect()
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.rect.left = x
+        self.rect.top = y
