@@ -5,6 +5,7 @@ class Mob(pygame.sprite.Sprite):
     #__init__為卡牌之參數，根據每張卡牌"完全"重構
     def __init__(self, pos, *enemy_list):
         pygame.sprite.Sprite.__init__(self)
+        self.NAME = ''
         self.COST = 0
         self.DEFAULT_HP = 0
         self.DEFAULT_CD = 0
@@ -76,6 +77,8 @@ class Mob(pygame.sprite.Sprite):
 #範例:騎士 無任何特殊之處，除參數(__init__)外無須重構
 class knight(Mob):
     def __init__(self, pos, enemy_list):
+        pygame.sprite.Sprite.__init__(self)
+        self.NAME = 'knight'
         self.COST = 3
         self.DEFAULT_HP = 1000
         self.DEFAULT_CD = int(TPS * 1.2)
@@ -89,12 +92,16 @@ class knight(Mob):
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
+        self.surface = pygame.Surface((30,30))
+        self.rect = self.surface.get_rect()
         self.float_x = pos[0]
         self.float_y = pos[1]
         self.rect.center = pos
 
 class Musketeer(Mob):
     def __init__(self, pos, enemy_list):
+        pygame.sprite.Sprite.__init__(self)
+        self.NAME = 'musketeer'
         self.COST = 4
         self.DEFAULT_HP = 650
         self.DEFAULT_CD = int(TPS * 1.0)
@@ -108,12 +115,16 @@ class Musketeer(Mob):
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
+        self.surface = pygame.Surface((30,30))
+        self.rect = self.surface.get_rect()
         self.float_x = pos[0]
         self.float_y = pos[1]
         self.rect.center = pos
 
 class Princess(Mob):
     def __init__(self, pos, enemy_list):
+        pygame.sprite.Sprite.__init__(self)
+        self.NAME = 'princess'
         self.COST = 3
         self.DEFAULT_HP = 270
         self.DEFAULT_CD = int(TPS * 1.8)
@@ -127,12 +138,16 @@ class Princess(Mob):
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
+        self.surface = pygame.Surface((30,30))
+        self.rect = self.surface.get_rect()
         self.float_x = pos[0]
         self.float_y = pos[1]
         self.rect.center = pos
 
 class Pika(Mob):
     def __init__(self, pos, enemy_list):
+        pygame.sprite.Sprite.__init__(self)
+        self.NAME = 'pika'
         self.COST = 4
         self.DEFAULT_HP = 720
         self.DEFAULT_CD = int(TPS * 1.5)
@@ -146,6 +161,8 @@ class Pika(Mob):
         self.enemy_list = enemy_list
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
+        self.surface = pygame.Surface((30,30))
+        self.rect = self.surface.get_rect()
         self.float_x = pos[0]
         self.float_y = pos[1]
         self.rect.center = pos
@@ -155,6 +172,7 @@ class Pika(Mob):
 class Building(pygame.sprite.Sprite):
     def __init__(self, pos, *enemy_list):
         pygame.sprite.Sprite.__init__(self)
+        self.NAME = ''
         self.ATK_RANGE = 0
         self.hp = 0
         self.DEFAULT_CD = 0
@@ -199,6 +217,7 @@ class Building(pygame.sprite.Sprite):
 class KingTower(Building):
     def __init__(self, pos, *enemy_list):
         pygame.sprite.Sprite.__init__(self)
+        self.NAME = 'king_tower'
         self.ATK_RANGE = 0
         self.hp = 0
         self.DEFAULT_CD = int(TPS * 1.0)
@@ -214,6 +233,7 @@ class KingTower(Building):
 class PrincessTower(Building):
     def __init__(self, pos, *enemy_list):
         pygame.sprite.Sprite.__init__(self)
+        self.NAME = 'princess_tower'
         self.ATK_RANGE = 0
         self.hp = 0
         self.DEFAULT_CD = int(TPS * 1.0)

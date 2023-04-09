@@ -32,10 +32,12 @@ class Button(pygame.sprite.Sprite):
             self.choosed = False
             self.rect.centery += 10
 
-def display(card, pos, hp, act):
+def display(card, pos, hp, team):
     image = images[card]
     image.convert()
     image = pygame.transform.scale(image, (30,30))
+    if team == 'enemy':
+        image = pygame.transform.rotate(image, 180)
     screen.blit(image, pos)
 
 button_group = pygame.sprite.Group()
@@ -70,8 +72,6 @@ while running:
                         button.choosed = False
                         button.rect.centery += 10
                         position = (mouse_posx, mouse_posy)
-                            
-    display('pika', 0, 0, 0)
 
     pygame.display.flip()
     screen.fill((0,0,0))
