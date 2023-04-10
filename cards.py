@@ -3,9 +3,10 @@ from constants import *
 
 class Mob(pygame.sprite.Sprite):
     #__init__為卡牌之參數，根據每張卡牌"完全"重構
-    def __init__(self, pos, *enemy_list):
+    def __init__(self, pos, *enemy_lists):
         pygame.sprite.Sprite.__init__(self)
         self.NAME = ''
+        self.TYPE = ''
         self.COST = 0
         self.DEFAULT_HP = 0
         self.DEFAULT_CD = 0
@@ -16,7 +17,7 @@ class Mob(pygame.sprite.Sprite):
         self.cd = self.DEFAULT_CD
         self.atk = self.DEFAULT_ATK
         self.speed = self.DEFAULT_SEPPD
-        self.enemy_list = enemy_list
+        self.enemy_lists = enemy_lists
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = 0
         self.surface = pygame.Surface((30,30))
@@ -44,8 +45,9 @@ class Mob(pygame.sprite.Sprite):
     def find_enemy(self):
         min_distance = 1e3
         nearest_enemy = None
-        for enemys in self.enemy_list:
-            for enemy in enemys:
+        for enemy_list in self.enemy_lists:
+            if not enemy_list:continue
+            for enemy in enemy_list:
                 distance = ((enemy.rect.centerx - self.rect.centerx) ** 2 + (enemy.rect.centery - self.rect.centery) ** 2) ** 0.5
                 if distance < min_distance:
                     nearest_enemy = enemy
@@ -54,10 +56,14 @@ class Mob(pygame.sprite.Sprite):
     
     #無視河流者須重構
     def find_road(self, enemy):
-        if (self.rect.centery < RIVER_Y - BLOCK_LENGTH and enemy.rect.centery < RIVER_Y) or (self.rect.centery > RIVER_Y and enemy.rect.centery > RIVER_Y):
+        if (self.rect.centery < RIVER_Y + BLOCK_LENGTH and enemy.rect.centery < RIVER_Y + BLOCK_LENGTH) or (self.rect.centery > RIVER_Y - BLOCK_LENGTH and enemy.rect.centery > RIVER_Y - BLOCK_LENGTH):
             return [enemy.rect.centerx, enemy.rect.centery]
         else:
-            return[min(abs(BRIDGE_X[0] - self.rect.centerx), abs(BRIDGE_X - self.rect.centerx)), RIVER_Y]
+            if abs(BRIDGE_X[0] - self.rect.centerx) < abs(BRIDGE_X[1] - self.rect.centerx):
+                nearest_bridge = (BRIDGE_X[0], RIVER_Y)
+            else:
+                nearest_bridge = (BRIDGE_X[1], RIVER_Y)
+            return nearest_bridge
 
     def move(self, pos):
         dir = pygame.math.Vector2(pos[0] - self.rect.centerx, pos[1] - self.rect.centery).normalize()
@@ -70,16 +76,17 @@ class Mob(pygame.sprite.Sprite):
     def atk_enemy(self, enemy):
         if self.left_cd == 0:
             enemy.hp -= self.atk
-            self.left_cd = self.cd
-            if enemy.hp == 0:
+            if enemy.hp < 0:
+                enemy.hp == 0
                 enemy.kill()
+            self.left_cd = self.cd
 
 #範例:騎士 無任何特殊之處，除參數(__init__)外無須重構
-class knight(Mob):
-    def __init__(self, pos, enemy_list):
+class Knight(Mob):
+    def __init__(self, pos, *enemy_lists):
         pygame.sprite.Sprite.__init__(self)
         self.NAME = 'knight'
-        self.COST = 3
+        self.TYPE = 'ground'
         self.DEFAULT_HP = 1000
         self.DEFAULT_CD = int(TPS * 1.2)
         self.DEFAULT_ATK = 95
@@ -89,7 +96,7 @@ class knight(Mob):
         self.cd = self.DEFAULT_CD
         self.atk = self.DEFAULT_ATK
         self.speed = self.DEFAULT_SEPPD
-        self.enemy_list = enemy_list
+        self.enemy_lists = enemy_lists
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
         self.surface = pygame.Surface((30,30))
@@ -99,10 +106,10 @@ class knight(Mob):
         self.rect.center = pos
 
 class Musketeer(Mob):
-    def __init__(self, pos, enemy_list):
+    def __init__(self, pos, *enemy_lists):
         pygame.sprite.Sprite.__init__(self)
         self.NAME = 'musketeer'
-        self.COST = 4
+        self.TYPE = 'ground'
         self.DEFAULT_HP = 650
         self.DEFAULT_CD = int(TPS * 1.0)
         self.DEFAULT_ATK = 145
@@ -112,7 +119,7 @@ class Musketeer(Mob):
         self.cd = self.DEFAULT_CD
         self.atk = self.DEFAULT_ATK
         self.speed = self.DEFAULT_SEPPD
-        self.enemy_list = enemy_list
+        self.enemy_lists = enemy_lists
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
         self.surface = pygame.Surface((30,30))
@@ -122,10 +129,10 @@ class Musketeer(Mob):
         self.rect.center = pos
 
 class Princess(Mob):
-    def __init__(self, pos, enemy_list):
+    def __init__(self, pos, *enemy_lists):
         pygame.sprite.Sprite.__init__(self)
         self.NAME = 'princess'
-        self.COST = 3
+        self.TYPE = 'ground'
         self.DEFAULT_HP = 270
         self.DEFAULT_CD = int(TPS * 1.8)
         self.DEFAULT_ATK = 120
@@ -135,7 +142,7 @@ class Princess(Mob):
         self.cd = self.DEFAULT_CD
         self.atk = self.DEFAULT_ATK
         self.speed = self.DEFAULT_SEPPD
-        self.enemy_list = enemy_list
+        self.enemy_lists = enemy_lists
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
         self.surface = pygame.Surface((30,30))
@@ -145,10 +152,10 @@ class Princess(Mob):
         self.rect.center = pos
 
 class Pika(Mob):
-    def __init__(self, pos, enemy_list):
+    def __init__(self, pos, *enemy_lists):
         pygame.sprite.Sprite.__init__(self)
         self.NAME = 'pika'
-        self.COST = 4
+        self.TYPE = 'ground'
         self.DEFAULT_HP = 720
         self.DEFAULT_CD = int(TPS * 1.5)
         self.DEFAULT_ATK = 250
@@ -158,7 +165,7 @@ class Pika(Mob):
         self.cd = self.DEFAULT_CD
         self.atk = self.DEFAULT_ATK
         self.speed = self.DEFAULT_SEPPD
-        self.enemy_list = enemy_list
+        self.enemy_lists = enemy_lists
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.left_cd = self.cd
         self.surface = pygame.Surface((30,30))
@@ -170,14 +177,15 @@ class Pika(Mob):
 
 
 class Building(pygame.sprite.Sprite):
-    def __init__(self, pos, *enemy_list):
+    def __init__(self, pos, *enemy_lists):
         pygame.sprite.Sprite.__init__(self)
         self.NAME = ''
+        self.TYPE = 'building'
         self.ATK_RANGE = 0
         self.hp = 0
         self.DEFAULT_CD = 0
         self.atk = 0
-        self.enemy_list = enemy_list
+        self.enemy_lists = enemy_lists
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.cd = self.DEFAULT_CD
         self.left_cd = 0
@@ -192,15 +200,17 @@ class Building(pygame.sprite.Sprite):
             self.atk_enemy(self.atking_enemy.sprite)
             return
         enemy = self.find_enemy()
-        if ((enemy.rect.centerx - self.rect.centerx) ** 2 + (enemy.rect.centery - self.rect.centery) ** 2) ** 0.5 <= self.ATK_RANGE:
-            self.atk_enemy(enemy)
-            self.atking_enemy.add(enemy)
+        if enemy:
+            if ((enemy.rect.centerx - self.rect.centerx) ** 2 + (enemy.rect.centery - self.rect.centery) ** 2) ** 0.5 <= self.ATK_RANGE:
+                self.atk_enemy(enemy)
+                self.atking_enemy.add(enemy)
 
     def find_enemy(self):
         min_distance = 1e3
         nearest_enemy = None
-        for enemys in self.enemy_list:
-            for enemy in enemys:
+        for enemy_list in self.enemy_lists:
+            if not enemy_list:continue
+            for enemy in enemy_list:
                 distance = ((enemy.rect.centerx - self.rect.centerx) ** 2 + (enemy.rect.centery - self.rect.centery) ** 2) ** 0.5
                 if distance < min_distance:
                     nearest_enemy = enemy
@@ -210,19 +220,22 @@ class Building(pygame.sprite.Sprite):
     def atk_enemy(self, enemy):
         if self.left_cd == 0:
             enemy.hp -= self.atk
+            if enemy.hp < 0:
+                enemy.hp == 0
             self.left_cd = self.cd
             if enemy.hp == 0:
                 enemy.kill()
 
 class KingTower(Building):
-    def __init__(self, pos, *enemy_list):
+    def __init__(self, pos, *enemy_lists):
         pygame.sprite.Sprite.__init__(self)
         self.NAME = 'king_tower'
+        self.TYPE = 'building'
         self.ATK_RANGE = 0
-        self.hp = 0
+        self.hp = 3000
         self.DEFAULT_CD = int(TPS * 1.0)
         self.atk = 0
-        self.enemy_list = enemy_list
+        self.enemy_lists = enemy_lists
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.cd = self.DEFAULT_CD
         self.left_cd = 0
@@ -231,14 +244,15 @@ class KingTower(Building):
         self.rect.center = pos
 
 class PrincessTower(Building):
-    def __init__(self, pos, *enemy_list):
+    def __init__(self, pos, *enemy_lists):
         pygame.sprite.Sprite.__init__(self)
         self.NAME = 'princess_tower'
+        self.TYPE = 'building'
         self.ATK_RANGE = 0
-        self.hp = 0
+        self.hp = 2000
         self.DEFAULT_CD = int(TPS * 1.0)
         self.atk = 0
-        self.enemy_list = enemy_list
+        self.enemy_lists = enemy_lists
         self.atking_enemy = pygame.sprite.GroupSingle()
         self.cd = self.DEFAULT_CD
         self.left_cd = 0
