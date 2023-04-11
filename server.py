@@ -69,7 +69,6 @@ while running:
     red_ground_group.update()
     red_air_group.update()
 
-    print(blue_king_tower, red_king_tower)
     if blue_king_tower.hp == 0:
         connect.send('lose', team[0])
         connect.send('win', team[1])
