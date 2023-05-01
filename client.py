@@ -57,6 +57,7 @@ def draw_text(surface, text, size, x, y):
     surface.blit(text_surface, text_rect)
 
 def end(text):
+    running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
