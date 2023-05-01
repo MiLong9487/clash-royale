@@ -5,7 +5,7 @@ import json
 class UDPServer():
     def __init__(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.bind(('127.0.0.1',9999))
+        self.sock.bind(('192.168.192.1',9999))
         self.send_count = 0
         self.buffer = []
         self.send_buffer = []

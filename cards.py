@@ -1,10 +1,9 @@
 import pygame
 
-SCREEN_SIZE = (360, 640)
 BATTLEGROUND_SIZE = (270,480)
 RIVER_Y = 240
 BLOCK_LENGTH = 15
-BRIDGE_X = (53, 217)
+BRIDGE_X = (60, 210)
 TPS = 20
 
 class Mob(pygame.sprite.Sprite):
@@ -87,7 +86,6 @@ class Mob(pygame.sprite.Sprite):
                 enemy.kill()
             self.left_cd = self.cd
 
-#範例:騎士 無任何特殊之處，除參數(__init__)外無須重構
 class Knight(Mob):
     def __init__(self, pos, *enemy_lists):
         pygame.sprite.Sprite.__init__(self)

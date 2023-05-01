@@ -5,7 +5,7 @@ import json
 class UDPClient():
     def __init__(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.server_addr = ('127.0.0.1',9999)
+        self.server_addr = ('192.168.192.1',9999)
         self.buffer = None
         self.recv_count = -1
         self.msg = None

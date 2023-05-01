@@ -44,20 +44,25 @@ def display(card, pos, hp, team):
     image = pygame.transform.scale(image, (30,30))
     if team == 'enemy':
         image = pygame.transform.rotate(image, 180)
+    draw_text(image, str(hp), 15, 15, 20)
     screen.blit(image, pos)
 
 font_name = pygame.font.match_font('arial')
-def draw_text(text, size, x, y):
+def draw_text(surface, text, size, x, y):
     font = pygame.font.Font(font_name, size)
-    text_surface = font.render(text, True, (255,255,255))
+    text_surface = font.render(text, True, (255,0,0))
     text_rect = text_surface.get_rect()
     text_rect.centerx = x
     text_rect.centery = y
-    screen.blit(text_surface, text_rect)
+    surface.blit(text_surface, text_rect)
 
 def end(text):
-    while True:
-        draw_text(text, 30, 135, 240)
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            
+        draw_text(screen, text, 30, 135, 240)
         pygame.display.flip()
         screen.fill((0,0,0))
         button_group.draw(screen)
@@ -72,7 +77,7 @@ button_group.add(button0,button1,button2,button3)
 water = 5
 
 while True:
-    draw_text('waiting for start', 30, 135, 240)
+    draw_text(screen, 'waiting for start', 30, 135, 240)
     recv = connect.recv()
     if type(recv) == str and recv == 'start':
         connect.send('ack')
@@ -82,11 +87,16 @@ while True:
     screen.fill((0,0,0))
     button_group.draw(screen)
 
+recv = None
+last_recv = None
+
 while running:
     clock.tick(20)
+
     water += 0.018
     if water > 10:
         water = 10
+    
     for event in pygame.event.get():
         position = None
         if event.type == pygame.QUIT:
@@ -118,11 +128,18 @@ while running:
             end(recv)
         for info in recv:
             display(*info)
+        last_recv = recv
+    elif last_recv:
+        for info in last_recv:
+            display(*info)
 
-    draw_text(str(int(water)), 10, 10, 530)
+    draw_text(screen, str(int(water)), 20, 10, 530)
 
     pygame.display.flip()
-    screen.fill((0,0,0))
+    screen.fill((0,255,0))
+    pygame.draw.rect(screen, (0,0,255), (0,225,45,30))
+    pygame.draw.rect(screen, (0,0,255), (75,225,120,30))
+    pygame.draw.rect(screen, (0,0,255), (225,225,45,30))
     button_group.draw(screen)
 
 pygame.quit()
