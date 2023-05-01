@@ -83,7 +83,11 @@ while True:
     if type(recv) == str and recv == 'start':
         connect.send('ack')
         break
-
+    for event in pygame.event.get():
+        position = None
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
     pygame.display.flip()
     screen.fill((0,0,0))
     button_group.draw(screen)
@@ -125,8 +129,9 @@ while running:
 
     recv = connect.recv()
     if recv:
-        if recv == 'win' or recv == 'lose':
+        if type(recv) == str:
             end(recv)
+            break
         for info in recv:
             display(*info)
         last_recv = recv
@@ -144,3 +149,4 @@ while running:
     button_group.draw(screen)
 
 pygame.quit()
+quit()

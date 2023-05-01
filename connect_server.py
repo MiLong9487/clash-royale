@@ -5,18 +5,22 @@ import json
 class UDPServer():
     def __init__(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.bind(('192.168.192.1',9999))
+        self.sock.bind(('0.0.0.0',9999))
         self.send_count = 0
         self.buffer = []
         self.send_buffer = []
+        self.error = False
         self.recv_thread = threading.Thread(target=self._recv)
         self.recv_thread.start()
         self.send_thread = threading.Thread(target=self._send)
         self.send_thread.start()
     def _recv(self):
         while True:
-            msg = self.sock.recvfrom(1024)
-            self.buffer.append({'info':json.loads(msg[0].decode()), 'addr':msg[1]})
+            try:
+                msg = self.sock.recvfrom(1024)
+                self.buffer.append({'info':json.loads(msg[0].decode()), 'addr':msg[1]})
+            except:
+                self.error = True
     def recv(self):
         if self.buffer:
             msg = self.buffer[:]

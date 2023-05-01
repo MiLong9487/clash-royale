@@ -82,7 +82,7 @@ class Mob(pygame.sprite.Sprite):
         if self.left_cd == 0:
             enemy.hp -= self.atk
             if enemy.hp < 0:
-                enemy.hp == 0
+                enemy.hp = 0
                 enemy.kill()
             self.left_cd = self.cd
 
