@@ -1,5 +1,11 @@
 import pygame
-from constants import *
+
+SCREEN_SIZE = (360, 640)
+BATTLEGROUND_SIZE = (270,480)
+RIVER_Y = 240
+BLOCK_LENGTH = 15
+BRIDGE_X = (53, 217)
+TPS = 20
 
 class Mob(pygame.sprite.Sprite):
     #__init__為卡牌之參數，根據每張卡牌"完全"重構

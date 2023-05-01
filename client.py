@@ -1,6 +1,5 @@
 import pygame
 import connect_client
-from constants import *
 
 pygame.init()
 screen = pygame.display.set_mode([270,540])

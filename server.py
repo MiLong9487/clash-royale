@@ -1,7 +1,6 @@
 import cards
 import connect_server
 import pygame
-from constants import *
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -47,7 +46,7 @@ blue_building_group.add(blue_king_tower, blue_princess_tower_0, blue_princess_to
 red_building_group.add(red_king_tower, red_princess_tower_0, red_princess_tower_1)
 
 while running:
-    clock.tick(TPS)
+    clock.tick(20)
     recvs = connect.recv()
     if recvs:
         for recv in recvs:
