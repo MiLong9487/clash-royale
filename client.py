@@ -77,7 +77,7 @@ button_group.add(button0,button1,button2,button3)
 
 water = 5
 
-while True:
+while running:
     draw_text(screen, 'waiting for start', 30, 135, 240)
     recv = connect.recv()
     if type(recv) == str and recv == 'start':
@@ -86,8 +86,7 @@ while True:
     for event in pygame.event.get():
         position = None
         if event.type == pygame.QUIT:
-            pygame.quit()
-            quit()
+            running = False
     pygame.display.flip()
     screen.fill((0,0,0))
     button_group.draw(screen)
