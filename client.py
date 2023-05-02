@@ -1,11 +1,6 @@
 import pygame
 import connect_client
 
-pygame.init()
-screen = pygame.display.set_mode([270,540])
-connect = connect_client.UDPClient()
-clock = pygame.time.Clock()
-
 images = {}
 images['knight'] = pygame.image.load('./image/knight.jpg')
 images['musketeer'] = pygame.image.load('./image/musketeer.jpg')
@@ -15,8 +10,6 @@ images['king_tower'] = pygame.image.load('./image/king_tower.jpg')
 images['princess_tower'] = pygame.image.load('./image/princess_tower.jpg')
 
 costs = {'knight':3,'musketeer':4,'pika':4,'princess':3}
-
-running = True
 
 class Button(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y,card=None):
@@ -66,7 +59,6 @@ def end(text):
         draw_text(screen, text, 30, 135, 240)
         pygame.display.flip()
         screen.fill((0,0,0))
-        button_group.draw(screen)
 
 button_group = pygame.sprite.Group()
 button0 = Button(81,507,'knight')
@@ -74,6 +66,13 @@ button1 = Button(135,507,'musketeer')
 button2 = Button(189,507,'pika')
 button3 = Button(243,507,'princess')
 button_group.add(button0,button1,button2,button3)
+
+pygame.init()
+screen = pygame.display.set_mode([270,540])
+connect = connect_client.UDPClient()
+clock = pygame.time.Clock()
+
+running = True
 
 water = 5
 
@@ -89,7 +88,6 @@ while running:
             running = False
     pygame.display.flip()
     screen.fill((0,0,0))
-    button_group.draw(screen)
 
 recv = None
 last_recv = None
